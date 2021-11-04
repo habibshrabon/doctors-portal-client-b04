@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import login from "../../../images/login.png";
 
-const Login = () => {
+const Register = () => {
   const [loginData, setLoginData] = useState({});
 
   const handelOnChange = (e) => {
@@ -15,7 +15,10 @@ const Login = () => {
   };
 
   const handelLoginSubmit = (e) => {
-    alert("Congratulation");
+    if (loginData.password !== loginData.password2) {
+      alert("Your password did not match");
+      return;
+    }
     e.preventDefault();
   };
   return (
@@ -23,7 +26,7 @@ const Login = () => {
       <Grid container spacing={2}>
         <Grid sx={{ mt: 8 }} item xs={12} md={6}>
           <Typography variant="body1" gutterBottom>
-            Login
+            Register
           </Typography>
           <form onSubmit={handelLoginSubmit}>
             <TextField
@@ -31,6 +34,7 @@ const Login = () => {
               id="standard-basic"
               label="Your Email"
               name="email"
+              type="email"
               onChange={handelOnChange}
               variant="standard"
             />
@@ -43,16 +47,25 @@ const Login = () => {
               onChange={handelOnChange}
               variant="standard"
             />
+            <TextField
+              sx={{ width: "75%", m: 1 }}
+              id="standard-basic"
+              label="Re-type Your Password"
+              type="password"
+              name="password2"
+              onChange={handelOnChange}
+              variant="standard"
+            />
 
             <Button
               sx={{ width: "75%", m: 1 }}
               type="submit"
               variant="contained"
             >
-              Login
+              Register
             </Button>
-            <NavLink style={{ textDecoration: "none" }} to="/register">
-              <Button variant="text">New user? Please Register</Button>
+            <NavLink style={{ textDecoration: "none" }} to="/login">
+              <Button variant="text">Already Register ? Please Login</Button>
             </NavLink>
           </form>
         </Grid>
@@ -64,4 +77,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
