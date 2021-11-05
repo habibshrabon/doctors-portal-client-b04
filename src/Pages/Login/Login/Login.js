@@ -8,13 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useHistory } from "react-router-dom";
 import login from "../../../images/login.png";
 import useAuth from "../../../hooks/useAuth";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({});
   const { user, loginUser, isLoading, authError } = useAuth();
+
+  const location = useLocation();
+  const history = useHistory();
 
   const handelOnChange = (e) => {
     const field = e.target.name;
@@ -25,7 +28,7 @@ const Login = () => {
   };
 
   const handelLoginSubmit = (e) => {
-    loginUser(loginData.email, loginData.password);
+    loginUser(loginData.email, loginData.password, location, history);
     e.preventDefault();
   };
   return (
