@@ -1,10 +1,20 @@
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Container,
+  Grid,
+  LinearProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import login from "../../../images/login.png";
+import useAuth from "../../../hooks/useAuth";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({});
+  const { user, loginUser, isLoading, authError } = useAuth();
 
   const handelOnChange = (e) => {
     const field = e.target.name;
@@ -15,7 +25,7 @@ const Login = () => {
   };
 
   const handelLoginSubmit = (e) => {
-    alert("Congratulation");
+    loginUser(loginData.email, loginData.password);
     e.preventDefault();
   };
   return (
@@ -54,6 +64,11 @@ const Login = () => {
             <NavLink style={{ textDecoration: "none" }} to="/register">
               <Button variant="text">New user? Please Register</Button>
             </NavLink>
+            {isLoading && <LinearProgress color="secondary" />}
+            {user?.email && (
+              <Alert severity="success">User Created Successfully!</Alert>
+            )}
+            {authError && <Alert severity="error">{authError}</Alert>}
           </form>
         </Grid>
         <Grid item xs={12} md={6}>

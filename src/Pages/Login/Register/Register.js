@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Container,
   Grid,
@@ -14,7 +15,7 @@ import login from "../../../images/login.png";
 const Register = () => {
   const [loginData, setLoginData] = useState({});
 
-  const { registerUser, isLoading } = useAuth();
+  const { user, registerUser, isLoading, authError } = useAuth();
 
   const handelOnChange = (e) => {
     const field = e.target.name;
@@ -82,6 +83,10 @@ const Register = () => {
             </form>
           )}
           {isLoading && <LinearProgress color="secondary" />}
+          {user?.email && (
+            <Alert severity="success">User Created Successfully!</Alert>
+          )}
+          {authError && <Alert severity="error">{authError}</Alert>}
         </Grid>
         <Grid item xs={12} md={6}>
           <img style={{ width: "100%" }} src={login} alt="" />
