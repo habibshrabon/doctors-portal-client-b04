@@ -1,10 +1,20 @@
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  LinearProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 import login from "../../../images/login.png";
 
 const Register = () => {
   const [loginData, setLoginData] = useState({});
+
+  const { registerUser, isLoading } = useAuth();
 
   const handelOnChange = (e) => {
     const field = e.target.name;
@@ -19,6 +29,7 @@ const Register = () => {
       alert("Your password did not match");
       return;
     }
+    registerUser(loginData.email, loginData.password);
     e.preventDefault();
   };
   return (
@@ -28,46 +39,49 @@ const Register = () => {
           <Typography variant="body1" gutterBottom>
             Register
           </Typography>
-          <form onSubmit={handelLoginSubmit}>
-            <TextField
-              sx={{ width: "75%", m: 1 }}
-              id="standard-basic"
-              label="Your Email"
-              name="email"
-              type="email"
-              onChange={handelOnChange}
-              variant="standard"
-            />
-            <TextField
-              sx={{ width: "75%", m: 1 }}
-              id="standard-basic"
-              label="Your Password"
-              type="password"
-              name="password"
-              onChange={handelOnChange}
-              variant="standard"
-            />
-            <TextField
-              sx={{ width: "75%", m: 1 }}
-              id="standard-basic"
-              label="Re-type Your Password"
-              type="password"
-              name="password2"
-              onChange={handelOnChange}
-              variant="standard"
-            />
+          {!isLoading && (
+            <form onSubmit={handelLoginSubmit}>
+              <TextField
+                sx={{ width: "75%", m: 1 }}
+                id="standard-basic"
+                label="Your Email"
+                name="email"
+                type="email"
+                onChange={handelOnChange}
+                variant="standard"
+              />
+              <TextField
+                sx={{ width: "75%", m: 1 }}
+                id="standard-basic"
+                label="Your Password"
+                type="password"
+                name="password"
+                onChange={handelOnChange}
+                variant="standard"
+              />
+              <TextField
+                sx={{ width: "75%", m: 1 }}
+                id="standard-basic"
+                label="Re-type Your Password"
+                type="password"
+                name="password2"
+                onChange={handelOnChange}
+                variant="standard"
+              />
 
-            <Button
-              sx={{ width: "75%", m: 1 }}
-              type="submit"
-              variant="contained"
-            >
-              Register
-            </Button>
-            <NavLink style={{ textDecoration: "none" }} to="/login">
-              <Button variant="text">Already Register ? Please Login</Button>
-            </NavLink>
-          </form>
+              <Button
+                sx={{ width: "75%", m: 1 }}
+                type="submit"
+                variant="contained"
+              >
+                Register
+              </Button>
+              <NavLink style={{ textDecoration: "none" }} to="/login">
+                <Button variant="text">Already Register ? Please Login</Button>
+              </NavLink>
+            </form>
+          )}
+          {isLoading && <LinearProgress color="secondary" />}
         </Grid>
         <Grid item xs={12} md={6}>
           <img style={{ width: "100%" }} src={login} alt="" />
